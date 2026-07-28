@@ -1,0 +1,32 @@
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #080808; color: #e8e8e8; font-family: 'IBM Plex Mono', monospace; }
+main { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 6rem; }
+header { padding: 2rem 0 1rem; border-bottom: 1px solid #1b1b1b; }
+h1,h2,h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; margin: .2rem 0; letter-spacing: .03em; }
+section { margin: 2.2rem 0; padding: 1rem; background: #0e0e0e; border: 1px solid #1f1f1f; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .8rem; }
+.card { background: #141414; border: 1px solid #242424; color: #eee; text-align: left; padding: .9rem; }
+.card.active { border-color: #ff2a2a; box-shadow: 0 0 0 1px #ff2a2a44; }
+.need { margin-top: .7rem; display: grid; gap: .45rem; }
+.chip { display: flex; justify-content: space-between; font-size: .7rem; color: #cfcfcf; }
+.track { height: 8px; background: #222; border-radius: 99px; overflow: hidden; }
+.track i { display: block; height: 100%; }
+.ticker { position: sticky; top: 0; z-index: 9; background: #180606; border: 1px solid #401515; color: #ff8383; padding: .6rem .8rem; font-size: .75rem; }
+.modelNote { max-width: 78ch; color: #a8a8a8; font-size: .7rem; line-height: 1.5; }
+.loadNotice { max-width: 78ch; border-left: 2px solid #ffaa22; color: #ffd28a; padding-left: .65rem; font-size: .7rem; line-height: 1.5; }
+.dialRow { display: flex; gap: .6rem; margin: .7rem 0; }
+input[type='range'] { width: 100%; }
+.impact { margin-top: .8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .6rem; }
+.impact div { background: #141414; border: 1px solid #202020; padding: .7rem; }
+.impact b { font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: #ff2a2a; }
+.impact span { display: block; font-size: .65rem; color: #888; }
+.tabs { display: flex; gap: .5rem; margin-bottom: .7rem; }
+.tabs button.active { border-color: #ff2a2a; color: #ff2a2a; }
+svg { width: 100%; height: 80px; background: #0a0a0a; border: 1px solid #1a1a1a; }
+.heartbeat { font-family: 'Oswald', sans-serif; color: #ff2a2a; letter-spacing: .2em; margin-bottom: .5rem; }
+.closing { font-family: 'Oswald', sans-serif; color: #ff2a2a; font-size: 1.6rem; }
+.particles { position: relative; min-height: 220px; background: radial-gradient(circle at top, #210909, #090909); overflow: hidden; border: 1px solid #222; }
+.particles span { position: absolute; top: -10px; width: 3px; height: 3px; border-radius: 999px; background: #ff2a2a; opacity: .7; animation: drop 3.4s linear infinite; }
+@keyframes drop { to { transform: translateY(260px); opacity: 0; } }
+button { background: transparent; border: 1px solid #333; color: #ddd; padding: .5rem .75rem; cursor: pointer; }
