@@ -23,9 +23,10 @@ const unitCosts = {
 app.get('/api/regions', (_, res) => res.json(regions))
 app.get('/api/unit-costs', (_, res) => res.json(unitCosts))
 app.get('/api/mortality', (_, res) => {
-  // configurable deaths/min baseline inspired by WHO preventable mortality aggregates
+  // Illustrative draft input. Replace with a cited, current primary source before publication.
   res.json({
-    source: 'WHO-style preventable mortality aggregate model',
+    source: 'Uncited illustrative model input',
+    publicationReady: false,
     preventableDeathsPerMinute: 19,
     updatedAt: new Date().toISOString()
   })

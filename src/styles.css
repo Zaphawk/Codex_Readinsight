@@ -13,6 +13,8 @@ section { margin: 2.2rem 0; padding: 1rem; background: #0e0e0e; border: 1px soli
 .track { height: 8px; background: #222; border-radius: 99px; overflow: hidden; }
 .track i { display: block; height: 100%; }
 .ticker { position: sticky; top: 0; z-index: 9; background: #180606; border: 1px solid #401515; color: #ff8383; padding: .6rem .8rem; font-size: .75rem; }
+.modelNote { max-width: 78ch; color: #a8a8a8; font-size: .7rem; line-height: 1.5; }
+.loadNotice { max-width: 78ch; border-left: 2px solid #ffaa22; color: #ffd28a; padding-left: .65rem; font-size: .7rem; line-height: 1.5; }
 .dialRow { display: flex; gap: .6rem; margin: .7rem 0; }
 input[type='range'] { width: 100%; }
 .impact { margin-top: .8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .6rem; }

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { DEFAULT_MORTALITY_RATE, loadImpactData } from './loadImpactData'
 
 const INR_PER_USD = 83.2
 const MIN_INR = 100_000
@@ -50,7 +51,8 @@ function ParticleField({ intensity = 800 }) {
 export default function App() {
   const [regions, setRegions] = useState([])
   const [costs, setCosts] = useState(null)
-  const [mortalityRate, setMortalityRate] = useState(12)
+  const [mortalityRate, setMortalityRate] = useState(DEFAULT_MORTALITY_RATE)
+  const [unavailableInputs, setUnavailableInputs] = useState([])
   const [currency, setCurrency] = useState('INR')
   const [selected, setSelected] = useState(null)
   const [budget, setBudget] = useState(MIN_INR)
@@ -59,12 +61,21 @@ export default function App() {
   const container = useRef(null)
 
   useEffect(() => {
-    Promise.all([fetch('/api/regions').then((r) => r.json()), fetch('/api/unit-costs').then((r) => r.json()), fetch('/api/mortality').then((r) => r.json())]).then(([r, c, m]) => {
-      setRegions(r)
-      setSelected(r[0])
-      setCosts(c)
-      setMortalityRate(m.preventableDeathsPerMinute)
+    let active = true
+
+    loadImpactData().then(({ regions: nextRegions, costs: nextCosts, mortalityRate: nextRate, unavailable }) => {
+      if (!active) return
+
+      setRegions(nextRegions)
+      setSelected(nextRegions[0] ?? null)
+      setCosts(nextCosts)
+      setMortalityRate(nextRate)
+      setUnavailableInputs(unavailable)
     })
+
+    return () => {
+      active = false
+    }
   }, [])
 
   useEffect(() => {
@@ -85,10 +96,16 @@ export default function App() {
 
   return (
     <main ref={container}>
-      <div className="ticker">Live preventable deaths (session model): {Math.floor(ticker).toLocaleString()}</div>
+      <div className="ticker">Illustrative preventable-death estimate (this session): {Math.floor(ticker).toLocaleString()}</div>
       <header>
         <h1>What Money Can Do</h1>
         <p>Choice → Dial → Futures → Ledger → Scale</p>
+        <p className="modelNote">Draft model only: costs, need indexes, wealth, mortality, and outcomes are illustrative assumptions, not forecasts. Cite current primary sources before publication.</p>
+        {unavailableInputs.length > 0 && (
+          <p className="loadNotice" role="status">
+            Some model inputs are unavailable ({unavailableInputs.join(', ')}). Available inputs and safe defaults remain active.
+          </p>
+        )}
         <button onClick={() => setCurrency((c) => (c === 'INR' ? 'USD' : 'INR'))}>View in {currency === 'INR' ? 'USD' : 'INR'}</button>
       </header>
 
@@ -131,10 +148,10 @@ export default function App() {
         }} />
 
         {impact && <div className="impact">
-          <div><b>{impact.livesSaved.toLocaleString()}</b><span>lives saved</span></div>
-          <div><b>{impact.ashaYears.toLocaleString()}</b><span>ASHA worker years</span></div>
-          <div><b>{impact.mealYears.toLocaleString()}</b><span>child meal-years</span></div>
-          <div><b>{impact.clinics.toLocaleString()}</b><span>clinics set up</span></div>
+          <div><b>{impact.livesSaved.toLocaleString()}</b><span>modelled lives-saved estimate</span></div>
+          <div><b>{impact.ashaYears.toLocaleString()}</b><span>modelled ASHA worker-years</span></div>
+          <div><b>{impact.mealYears.toLocaleString()}</b><span>modelled child meal-years</span></div>
+          <div><b>{impact.clinics.toLocaleString()}</b><span>modelled clinics</span></div>
         </div>}
       </section>
 
@@ -157,7 +174,7 @@ export default function App() {
 
       <section>
         <h2>Act V — The Scale Reveal</h2>
-        <p>Each particle = ₹10 lakh equivalent in purchasing force.</p>
+        <p>Each particle represents ₹10 lakh in this draft scale model.</p>
         <ParticleField intensity={1300} />
       </section>
     </main>
